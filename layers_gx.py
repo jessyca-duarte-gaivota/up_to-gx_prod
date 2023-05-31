@@ -152,6 +152,7 @@ class LayersGX():
     def post_layer_operation(
         base_url,
         entity_id,
+        org_id,
         type_data,
         geom_type,
         date_file,
@@ -168,6 +169,7 @@ class LayersGX():
 
         data = {
             "entity_id": entity_id,
+            "org_id":    org_id,
             "type_data": type_data,
             "date_file": date_file,
             "geom_type": geom_type,
@@ -193,6 +195,7 @@ class LayersGX():
         self,
         base_url,
         entity_name,
+        org_id,
         geom_type_str,
         data_type_str,
         date_file,
@@ -211,6 +214,7 @@ class LayersGX():
         layer_id = self.post_layer_operation(
             base_url=base_url,
             entity_id=entity_id,
+            org_id=org_id,
             type_data=self.get_data_type_code(data_type_str),
             geom_type=self.get_geom_type_code(geom_type_str),
             date_file=date_file,

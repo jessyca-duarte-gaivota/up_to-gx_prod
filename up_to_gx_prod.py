@@ -13,7 +13,7 @@ client = boto3.client(
     service_name='s3',
     aws_access_key_id=os.getenv('ds_access_key'),
     aws_secret_access_key=os.getenv('ds_secret_access_key'),
-    region_name='us-east-1' # you can use any region
+    region_name='us-east-1' 
 )
 response = client.list_objects_v2(Bucket='gaivota-data-science', Prefix='projetos/ourofino/results/')
 keys = [obj['Key'] for obj in response['Contents'] if obj['Key'].endswith(".geojson")]
@@ -21,13 +21,14 @@ url_layers_gx = 'https://api-internal.gaivota.ai/api/layers-gx/v1'
 for i in keys:
     filename = os.path.basename(i)
     print(filename)
-    entity_name = filename.split('.')[0]    
+    entity_name = filename.replace(" ", "_").split('.')[0]    
     print(entity_name)
     s3_path = 's3://gaivota-data-science/'+i
     print(s3_path)
     geom_type_str = 'Polygon'
     data_type_str = 'Private'
     include_gaivota_id = 'Y'
+    org_id = 'Ourofino Staging'
 
     date_file = datetime.now().strftime('%Y-%m-%d')
 
@@ -45,6 +46,7 @@ for i in keys:
     data = lgx.insert_layers_gx(
         url_layers_gx,
         entity_name,
+        org_id,
         geom_type_str,
         data_type_str,
         date_file,
